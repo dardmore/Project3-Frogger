@@ -48,6 +48,8 @@ var Player = function () {
 };
 
 Player.prototype.update = function () {
+
+// On keyPress, move player left, right, up or down.  The player will move one square.  The if statements are used to make sure the player does not move off of the canvas.
     switch (this.keyPress) {
         case 'up' :
             if (this.y - rowHeight >= 0) {
@@ -70,15 +72,16 @@ Player.prototype.update = function () {
             };
         break;
     }
-    this.x = this.x;
     this.keyPress = ' ';
 };
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    
+
+// Check to see if there was a collision between player and enemy    
     checkCollision();
     
+// Check to see if the player made it to the finish line
     checkFinish();
 };
 
@@ -86,6 +89,7 @@ Player.prototype.handleInput = function (key) {
     this.keyPress = key;
 };
 
+// Check for a collision.  If the ememy and player 'y' position is the same and the player 'x' position is within the range of the enemy 'x' position, then reset the player to the starting position.
 function checkCollision() {
     for (i = 0; i < numEnemies; i++) {
         if ((player.x >= allEnemies[i].x - 50) && (player.x <= allEnemies[i].x + 80) && (player.y === allEnemies[i].y)) {
